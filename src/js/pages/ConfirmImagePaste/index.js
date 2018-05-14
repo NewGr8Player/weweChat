@@ -32,7 +32,7 @@ export default class ConfirmImagePaste extends Component {
                 fullscreen={true}
                 show={show}>
                 <ModalBody className={classes.container}>
-                    Send image ?
+                    确认发送以下图片 ?
 
                     <img src={image} />
 
