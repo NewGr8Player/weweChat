@@ -12,7 +12,7 @@ class Settings {
     @observable confirmImagePaste = true;
     @observable startup = false;
     @observable blockRecall = false;
-    @observable rememberConversation = false;
+    @observable remeberConversation = false;
     @observable showRedIcon = true;
     @observable downloads = '';
 

@@ -62,7 +62,7 @@ async function resolveMessage(message) {
 
             contact.image = `${axios.defaults.baseURL}cgi-bin/mmwebwx-bin/webwxgeticon?seq=0&username=${contact.UserName}&skey=${auth.skey}&msgid=${message.MsgId}`;
             contact.name = contact.NickName;
-            contact.address = `${contact.Province || 'UNKNOW'}, ${contact.City || 'UNKNOW'}`;
+            contact.address = `${contact.Province || '未知'}, ${contact.City || '未知'}`;
             message.contact = contact;
             break;
 
@@ -129,7 +129,7 @@ async function resolveMessage(message) {
                     break;
 
                 default:
-                    console.error('Unknow app message: %o', Object.assign({}, message));
+                    console.error('未知应用消息: %o', Object.assign({}, message));
                     message.Content = `收到一条暂不支持的消息类型，请在手机上查看（${message.FileName || 'No Title'}）。`;
                     message.MsgType = 19999;
                     break;
@@ -169,7 +169,7 @@ async function resolveMessage(message) {
 
         default:
             // Unhandle message
-            message.Content = 'Unknow message type: ' + message.MsgType;
+            message.Content = '未知消息类型: ' + message.MsgType;
             message.MsgType = 19999;
     }
 
@@ -352,7 +352,7 @@ class Chat {
         /* eslint-enable */
 
         if (!user) {
-            return console.error('Got an invalid message: %o', message);
+            return console.error('收到无法解析消息: %o', message);
         }
 
         // Add the messages of your sent on phone to the chat sets
@@ -470,7 +470,7 @@ class Chat {
         };
 
         if (res.data.BaseResponse.Ret !== 0) {
-            console.error('Failed to send text: %o', response.data);
+            console.error('无法发送消息: %o', response.data);
             throw response.data;
         }
 
@@ -511,7 +511,7 @@ class Chat {
         };
 
         if (res.data.BaseResponse.Ret !== 0) {
-            console.error('Failed to send emoji: %o', response.data);
+            console.error('无法发送emoji表情: %o', response.data);
             throw response.data;
         }
 
@@ -554,7 +554,7 @@ class Chat {
         };
 
         if (res.data.BaseResponse.Ret !== 0) {
-            console.error('Failed to send image: %o', response.data);
+            console.error('无法发送图片: %o', response.data);
             throw response.data;
         }
 
@@ -609,7 +609,7 @@ class Chat {
         };
 
         if (res.data.BaseResponse.Ret !== 0) {
-            console.error('Failed to send file: %o', response.data);
+            console.error('无法发送文件: %o', response.data);
             throw response.data;
         }
 
@@ -713,7 +713,7 @@ class Chat {
                 && !helper.isContact(user)) {
                 // The target is not your friend
                 list.data.push({
-                    Content: `${user.sex ? 'She' : 'He'} is not your friend, <a class="add-friend" data-userid="${user.UserName}">Send friend request</a>`,
+                    Content: `${user.sex ? '她' : '他'} 还不是你的好友, <a class="add-friend" data-userid="${user.UserName}">发送好友请求</a>`,
                     MsgType: 19999,
                 });
             }
@@ -731,13 +731,13 @@ class Chat {
         var showMessage = snackbar.showMessage;
 
         if (!file || file.size === 0) {
-            showMessage('You can\'t send an empty file.');
+            showMessage('发送文件不能为空！');
             return false;
         }
 
         if (!file
             || file.size >= 100 * 1024 * 1024) {
-            showMessage('Send file not allowed to exceed 100M.');
+            showMessage('发送文件不能大于100MB！');
             return false;
         }
 
@@ -803,7 +803,7 @@ class Chat {
         });
 
         if (res === false) {
-            showMessage(`Failed to send ${file.name}.`);
+            showMessage(`文件 ${file.name} 发送失败！`);
         }
 
         return res;
@@ -968,7 +968,7 @@ class Chat {
                 break;
 
             default:
-                return 'Unknow Type';
+                return '未知类型';
         }
 
         list.data.push(item);

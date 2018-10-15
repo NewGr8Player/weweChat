@@ -19,7 +19,6 @@ class App extends Component {
             await stores.search.getHistory();
         }
     }
-
     canisend() {
         return this.refs.navigator.history.location.pathname === '/'
             && stores.chat.user;
@@ -27,7 +26,6 @@ class App extends Component {
 
     componentDidMount() {
         var navigator = this.refs.navigator;
-
         // Hide the tray icon
         ipcRenderer.on('hide-tray', () => {
             stores.settings.setShowOnTray(false);

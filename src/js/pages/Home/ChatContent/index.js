@@ -156,7 +156,7 @@ export default class ChatContent extends Component {
                 return `
                     <div class="${classes.invalidEmoji}">
                         <div></div>
-                        <span>Send an emoji, view it on mobile</span>
+                        <span>无法解析的Emoji表情，请在手机端查看！</span>
                     </div>
                 `;
 
@@ -199,10 +199,10 @@ export default class ChatContent extends Component {
                 }
 
                 if (!video) {
-                    console.error('Invalid video message: %o', message);
+                    console.error('无法解析的视频文件: %o', message);
 
                     return `
-                        Receive an invalid video message, please see the console output.
+                        接收到无法解析的视频未见，请查看系统日志。
                     `;
                 }
 
@@ -216,7 +216,7 @@ export default class ChatContent extends Component {
 
                 return `
                     <div class="${classes.transfer}">
-                        <h4>Money Transfer</h4>
+                        <h4>转账消息</h4>
                         <span>💰 ${transfer.money}</span>
                         <p>如需收钱，请打开手机微信确认收款。</p>
                     </div>
@@ -251,7 +251,7 @@ export default class ChatContent extends Component {
                 return `
                     <div class="${classes.locationSharing}">
                         <i class="icon-ion-ios-location"></i>
-                        Location sharing, Please check your phone.
+                        位置分享，请到手机端查看。
                     </div>
                 `;
         }
@@ -420,13 +420,13 @@ export default class ChatContent extends Component {
     showFileAction(download) {
         var templates = [
             {
-                label: 'Open file',
+                label: '打开文件',
                 click: () => {
                     ipcRenderer.send('open-file', download.path);
                 }
             },
             {
-                label: 'Open the folder',
+                label: '打开文件夹',
                 click: () => {
                     let dir = download.path.split('/').slice(0, -1).join('/');
                     ipcRenderer.send('open-folder', dir);
@@ -442,7 +442,7 @@ export default class ChatContent extends Component {
         var caniforward = [1, 3, 47, 43, 49 + 6].includes(message.MsgType);
         var templates = [
             {
-                label: 'Delete',
+                label: '删除',
                 click: () => {
                     this.props.deleteMessage(message.MsgId);
                 }
@@ -452,7 +452,7 @@ export default class ChatContent extends Component {
 
         if (caniforward) {
             templates.unshift({
-                label: 'Forward',
+                label: '转发',
                 click: () => {
                     this.props.showForward(message);
                 }
@@ -462,7 +462,7 @@ export default class ChatContent extends Component {
         if (message.isme
             && message.CreateTime - new Date() < 2 * 60 * 1000) {
             templates.unshift({
-                label: 'Recall',
+                label: '撤回',
                 click: () => {
                     this.props.recallMessage(message);
                 }
@@ -479,7 +479,7 @@ export default class ChatContent extends Component {
         var user = this.props.user;
         var menu = new remote.Menu.buildFromTemplate([
             {
-                label: 'Toggle the conversation',
+                label: '切换会话',
                 click: () => {
                     this.props.toggleConversation();
                 }
@@ -488,7 +488,7 @@ export default class ChatContent extends Component {
                 type: 'separator',
             },
             {
-                label: 'Empty Content',
+                label: '清空内容',
                 click: () => {
                     this.props.empty(user);
                 }
@@ -497,13 +497,13 @@ export default class ChatContent extends Component {
                 type: 'separator'
             },
             {
-                label: helper.isTop(user) ? 'Unsticky' : 'Sticky on Top',
+                label: helper.isTop(user) ? '取消置顶' : '置顶',
                 click: () => {
                     this.props.sticky(user);
                 }
             },
             {
-                label: 'Delete',
+                label: '删除',
                 click: () => {
                     this.props.removeChat(user);
                 }
@@ -529,7 +529,7 @@ export default class ChatContent extends Component {
         });
 
         if (counter) {
-            tips.innerHTML = `You has ${counter} unread messages.`;
+            tips.innerHTML = `你有 ${counter} 条未读消息。`;
             tips.classList.add(classes.show);
         } else {
             tips.classList.remove(classes.show);
@@ -567,7 +567,7 @@ export default class ChatContent extends Component {
                 let counter = viewport.querySelectorAll(`.${classes.message}.unread`).length;
 
                 if (counter) {
-                    tips.innerHTML = `You has ${counter} unread messages.`;
+                    tips.innerHTML = `你有 ${counter} 条未读消息。`;
                     tips.classList.add(classes.show);
                 }
                 return;
@@ -638,7 +638,7 @@ export default class ChatContent extends Component {
 
                                     <span
                                         className={classes.signature}
-                                        dangerouslySetInnerHTML={{__html: signature || 'No Signature'}}
+                                        dangerouslySetInnerHTML={{__html: signature || '这家伙很懒，没有签名~'}}
                                         onClick={e => this.props.showMembers(user)}
                                         title={signature} />
                                 </div>
@@ -664,7 +664,7 @@ export default class ChatContent extends Component {
                             <img
                                 className="disabledDrag"
                                 src="assets/images/noselected.png" />
-                            <h1>No Chat selected :(</h1>
+                            <h1>还没有选择聊天</h1>
                         </div>
                     )
                 }

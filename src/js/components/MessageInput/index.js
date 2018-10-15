@@ -24,12 +24,13 @@ export default class MessageInput extends Component {
     canisend() {
         var user = this.props.user;
 
-        if (
-            true
-            && user.length === 1
-            && user.slice(-1).pop().UserName === this.props.me.UserName
-        ) {
-            this.props.showMessage('Can\'t send messages to yourself.');
+        if (this.blocking) {
+            return false;
+        }
+
+        if (user.length === 1
+            && user.slice(-1).pop().UserName === this.props.me.UserName) {
+            this.props.showMessage('不能给自己发送消息！');
             return false;
         }
 
@@ -61,9 +62,9 @@ export default class MessageInput extends Component {
                         true
                     );
 
-                    if (!res) {
-                        await this.props.showMessage(batch ? `Sending message to ${e.NickName} has failed!` : 'Failed to send message.');
-                    }
+                if (!res) {
+                    await this.props.showMessage(batch ? `无法给 ${e.NickName} 发送消息！` : '无法发送消息!');
+                }
 
                     return true;
                 }
@@ -110,11 +111,11 @@ export default class MessageInput extends Component {
 
             if (message === false) {
                 if (batch) {
-                    showMessage(`Send message to ${user.NickName} is failed!`);
+                    showMessage(`无法给 ${user.NickName} 发送消息！`);
                     continue;
                 }
                 // In batch mode just show the failed message
-                showMessage('Failed to send image.');
+                showMessage('无法发送图片！');
             }
         }
     }
@@ -159,8 +160,7 @@ export default class MessageInput extends Component {
         var canisend = !!this.props.user.length;
 
         return (
-            <div
-                className={
+            <div className={
                     clazz(
                         classes.container,
                         this.props.className,
@@ -171,9 +171,8 @@ export default class MessageInput extends Component {
                 }
             >
                 <div
-                    className={classes.tips}
-                >
-                    You should choose a contact first.
+                    className={classes.tips}>
+                    请先选择一个联系人。
                 </div>
 
                 <input
@@ -184,7 +183,10 @@ export default class MessageInput extends Component {
                     readOnly={!canisend}
                     onPaste={e => this.handlePaste(e)}
                     onKeyPress={e => this.handleEnter(e)}
-                />
+                    placeholder="回车发送..."
+                    readOnly={!canisend}
+                    ref="input"
+                    type="text" />
 
                 <div className={classes.action}>
                     <i
