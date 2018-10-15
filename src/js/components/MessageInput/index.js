@@ -1,7 +1,6 @@
-
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { ipcRenderer } from 'electron';
+import {ipcRenderer} from 'electron';
 import clazz from 'classname';
 
 import classes from './style.css';
@@ -62,9 +61,9 @@ export default class MessageInput extends Component {
                         true
                     );
 
-                if (!res) {
-                    await this.props.showMessage(batch ? `无法给 ${e.NickName} 发送消息！` : '无法发送消息!');
-                }
+                    if (!res) {
+                        await this.props.showMessage(batch ? `无法给 ${e.NickName} 发送消息！` : '无法发送消息!');
+                    }
 
                     return true;
                 }
@@ -79,7 +78,7 @@ export default class MessageInput extends Component {
     };
 
     toggleEmoji(show = !this.state.showEmoji) {
-        this.setState({ showEmoji: show });
+        this.setState({showEmoji: show});
     }
 
     writeEmoji(emoji) {
@@ -131,7 +130,7 @@ export default class MessageInput extends Component {
             }
 
             let parts = [
-                new window.Blob([new window.Uint8Array(args.raw.data)], { type: 'image/png' })
+                new window.Blob([new window.Uint8Array(args.raw.data)], {type: 'image/png'})
             ];
             let file = new window.File(parts, args.filename, {
                 lastModified: new Date(),
@@ -161,14 +160,14 @@ export default class MessageInput extends Component {
 
         return (
             <div className={
-                    clazz(
-                        classes.container,
-                        this.props.className,
-                        {
-                            [classes.shouldSelectUser]: !canisend,
-                        }
-                    )
-                }
+                clazz(
+                    classes.container,
+                    this.props.className,
+                    {
+                        [classes.shouldSelectUser]: !canisend,
+                    }
+                )
+            }
             >
                 <div
                     className={classes.tips}>
@@ -177,16 +176,13 @@ export default class MessageInput extends Component {
 
                 <input
                     id="messageInput"
-                    ref="input"
-                    type="text"
-                    placeholder="Type something to send..."
-                    readOnly={!canisend}
                     onPaste={e => this.handlePaste(e)}
                     onKeyPress={e => this.handleEnter(e)}
                     placeholder="回车发送..."
                     readOnly={!canisend}
                     ref="input"
-                    type="text" />
+                    type="text"
+                />
 
                 <div className={classes.action}>
                     <i

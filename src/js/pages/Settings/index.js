@@ -173,10 +173,6 @@ export default class Settings extends Component {
                 </div>
                 <div className={classes.column}>
                     <h2>插件</h2>
-
-                    {
-                        this.renderPlugins(plugins)
-                    }
                 </div>
             </div>
         );
